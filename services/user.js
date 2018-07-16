@@ -24,17 +24,9 @@ module.exports = {
     }
 
     UserRepository.create(user);
-    UserRepository.save((err, data) => {
+    UserRepository.save(user, (err, data) => {
       callback(err, data);
     });
-  },
-
-  delete: (id, callback) => {
-    if (!id) {
-      return callback(new Error('missed id'));
-    }
-
-    UserRepository.delete(id, callback);
   },
 
   update: (id, user, callback) => {
@@ -60,13 +52,22 @@ module.exports = {
     });
   },
 
+  delete: (id, callback) => {
+    if (!id) 
+      return callback(new Error('missed id'));
+
+    UserRepository.delete(id, callback);
+  },
+
   searchUserContact: (id, callback) => {
     if (!id) {
       return callback(new Error('missed id'));
     }
 
-    UserRepository.searchUserContact(id, (err, data) => {
-      callback(err, data);
+    UserRepository.getSendedMessages(id, (err, data) => {
+      UserRepository.getFriends(data, (err, data) => {
+        callback(err, data);
+      });
     });
   }
 

@@ -14,6 +14,25 @@ module.exports = {
     });
   },
 
+  create: (message, callback) => {
+    if (!message.receiverId) {
+      return callback(new Error('missed receiver ID'));
+    }
+
+    if (!message.senderId) {
+      return callback(new Error('missed sender ID'));
+    }
+    
+    if(!message.text){
+      return callback(new Error('missed message text'));
+    }
+
+    MessageRepository.create(message);
+    MessageRepository.save(message, (err, data) => {
+      callback(err, data);
+    });
+  },
+
   update: (id, message, callback) => {
     if (!id)
       return callback(new Error('missed ID'));
@@ -40,29 +59,9 @@ module.exports = {
     });
   },
 
-  create: (message, callback) => {
-    if (!message.receiverId) {
-      return callback(new Error('missed receiver ID'));
-    }
-
-    if (!message.senderId) {
-      return callback(new Error('missed sender ID'));
-    }
-    
-    if(!message.text){
-      return callback(new Error('missed message text'));
-    }
-
-    MessageRepository.create(message);
-    MessageRepository.save((err, data) => {
-      callback(err, data);
-    });
-  },
-
   delete: (id, callback) => {
-    if (!id) {
+    if (!id)
       return callback(new Error('missed id'));
-    }
 
     MessageRepository.delete(id, callback);
   }

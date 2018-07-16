@@ -2,11 +2,7 @@ const connection = require("../db/dbconnect");
 const Repository = require("./GeneralRepository");
 const Message = require("../models/message");
 
-MessageRepository.prototype = new Repository();
-MessageRepository.prototype.create = create;
-MessageRepository.prototype.save = save;
-
-let MessArray = [];
+var UsersArray  = [];
 
 function MessageRepository() {
   Repository.prototype.constructor.call(this);
@@ -14,27 +10,23 @@ function MessageRepository() {
 }
 
 function create(user) {
-  MessArray.push(user);
+  UsersArray .push(user);
 }
 
-function save(callback) {
-  let toInsert = MessArray;
-  MessArray = [];
-
-  this.getTotalId((err, maxId) => {
-    if (err)
-      return callback(err);
-
-    for (let item of toInsert) {
-      item.id = maxId + 1;
-      maxId++;
-      let entity = new Message(item);
-      entity.save(function (err) {
-        err && callback(err);
-      });
-
-    }
+function save(message, callback) {
+  let entity = new Message({
+    id: message.id,
+    senderId: message.senderId,
+    receiverId: message.receiverId,
+    text: message.text
+  }); 
+  entity.save(function (err) {
+    err && callback(err);
   });
 }
+
+MessageRepository.prototype = new Repository();
+MessageRepository.prototype.create = create;
+MessageRepository.prototype.save = save;
 
 module.exports = new MessageRepository();

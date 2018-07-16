@@ -66,17 +66,15 @@ router.delete("/:id", (req, res, next) => {
   });
 });
 
-router.get("/:id/senderReceiver", (req, res, next) => {
+
+router.get("/:id/friends", (req, res, next) => {
   userService.searchUserContact(Number(req.params.id), (err, data) => {
     if (!err) {
-      res.status(200);
-      res.json(data);
-      res.end();
+      res.data = data;
+      res.json(res.data);
     } else {
-      res.status(400);
-      res.json({
-        err: err.message
-      });
+      res.status(500);
+      res.end();
     }
   });
 });

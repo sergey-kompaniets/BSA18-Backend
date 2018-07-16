@@ -5,7 +5,7 @@ const messageSchema = mongoose.Schema({
   senderId: Number,
   receiverId: Number,
   text: String
-}, { versionKey: false });
+}, {versionKey: false });
 
 const Message = mongoose.model("Message", messageSchema);
 

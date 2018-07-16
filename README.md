@@ -1,3 +1,4 @@
+
 ## Users: 
 
 ```
@@ -6,7 +7,7 @@ GET: /api/user/
 
 GET: /api/user/:id  
 
-GET: /api/user/:id/senderReceiver  
+GET: /api/user/:id/friends  
 
 POST: /api/user/  
 
